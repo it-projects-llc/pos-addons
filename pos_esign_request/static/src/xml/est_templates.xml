@@ -9,10 +9,9 @@
 
                 <h1><t t-esc="widget.company_name"/></h1>
                 <img t-attf-src="{{widget.company_image_url}}" alt="Company Logo"/>
-                <!--Not Sure Is this stuff is needed-->
-                <h3>EST Session: <t t-esc="widget.action.context.session_name"/></h3>
-                <h3>Related to Barcode Interface# <t t-esc="widget.action.context.barcode_interface"/></h3>
-                <h3>Started At <t t-esc="widget.action.context.start_at"/></h3>
+                <h3>E-Sign Kiosk </h3>
+                <h3>Related to <t t-esc="widget.action.context.pos_name"/></h3>
+                <!--<h3>Started At <t t-esc="widget.action.context.start_at"/></h3>-->
                 <br id="br"/>
                 <h1 class="greeting_message">Waiting for a sign request</h1>
                 <div class="panel panel-default mt16 mb0 terms_container">

@@ -34,10 +34,9 @@ class PosConfig(models.Model):
             'tag': 'est_kiosk_mode',
             'target': 'fullscreen',
             'context': {
-                'session_name': 'E-Sign Kiosk',
                 'config_id': self.id,
-                # 'start_at': datetime.ToString("MM/dd/yyyy HH:mm:ss.fff", datetime.now()),
                 'terms_to_sign': self.terms_to_sign,
+                'pos_name': self.name,
             },
         }
 
