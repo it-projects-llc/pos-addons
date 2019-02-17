@@ -37,8 +37,11 @@ screens.PaymentScreenWidget.include({
                 return self.click_set_customer();
             }
             Session.rpc('/pos_longpolling/sign_request', {
-                 partner_id: partner.id,
-                 config_id: self.pos.config.id,
+                vals: {
+                    partner_id: partner.id,
+                    partner_name: partner.name,
+                    config_id: self.pos.config.id,
+                },
             });
         });
 
