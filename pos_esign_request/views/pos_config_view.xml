@@ -10,7 +10,8 @@
         <field name="arch" type="xml">
             <field name="iface_display_categ_images" position="after">
                 <field name="ask_for_sign"/>
-                <field name="terms_to_sign" widget="ace" options="{'mode': 'xml'}"/>
+                <field name="mandatory_ask_for_sign" attrs="{'invisible': [('ask_for_sign', '=', False)]}"/>
+                <field name="terms_to_sign" attrs="{'invisible': [('ask_for_sign', '=', False)], 'required': [('ask_for_sign', '=', True)]}" widget="ace" options="{'mode': 'xml'}"/>
             </field>
         </field>
     </record>
@@ -20,8 +21,11 @@
         <field name="model">pos.config</field>
         <field name="inherit_id" ref="point_of_sale.view_pos_config_kanban"/>
         <field name="arch" type="xml">
+            <field name="currency_id" position="after">
+                <field name="ask_for_sign"/>
+            </field>
             <button name="open_session_cb" position="after">
-                <button t-if="record.current_session_state.raw_value === 'opened' || record.pos_session_username.value" class="btn btn-default" name="open_esign_kiosk" type="object">E-Sign</button>
+                <button t-if="record.ask_for_sign.value &amp;&amp; (record.current_session_state.raw_value === 'opened' || record.pos_session_username.value)" class="btn btn-default" name="open_esign_kiosk" type="object">E-Sign</button>
             </button>
         </field>
     </record>
