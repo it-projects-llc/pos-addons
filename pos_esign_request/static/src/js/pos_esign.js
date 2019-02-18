@@ -24,30 +24,38 @@ screens.PaymentScreenWidget.include({
         this._super(parent, options);
 
         var esign_button = this.$el.find('.button.esign');
+        esign_button.hide();
         var next_button = $('.payment-screen .top-content .button.next').hide();
 
-        next_button.show();
-        if (this.pos.config.ask_for_sign && ( !this.pos.get_client() || !this.pos.get_client().sign_attachment_id )) {
-            $('.payment-screen .top-content .button.next').hide();
+        var client = this.pos.get_client();
+        var ask_for_sign = this.pos.config.ask_for_sign;
+        if (ask_for_sign && client) {
+            esign_button.show();
+            esign_button.off().on('click', function(e){
+                var partner = self.pos.get_client();
+                if (!partner){
+                    return self.click_set_customer();
+                }
+                Session.rpc('/pos_longpolling/sign_request', {
+                    vals: {
+                        partner_id: partner.id,
+                        partner_name: partner.name,
+                        config_id: self.pos.config.id,
+                    },
+                });
+            });
+            var mandatory_ask_for_sign = this.pos.config.mandatory_ask_for_sign;
+            if (!mandatory_ask_for_sign || client.sign_attachment_id) {
+                next_button.show();
+            }
+        } else if (!ask_for_sign) {
+            next_button.show();
         }
 
-        esign_button.off().on('click', function(e){
-            var partner = self.pos.get_client();
-            if (!partner){
-                return self.click_set_customer();
-            }
-            Session.rpc('/pos_longpolling/sign_request', {
-                vals: {
-                    partner_id: partner.id,
-                    partner_name: partner.name,
-                    config_id: self.pos.config.id,
-                },
-            });
-        });
 
         this.pos.bind('changed:partner_esign', function(res){
             var client = self.pos.get_client();
-            if (client && client.id === res.partner_id) {
+            if (client && client.id === res.partner_id && client.sign_attachment_id) {
                 next_button.show();
             }
         });
@@ -64,17 +72,20 @@ gui.Gui.prototype.screen_classes.filter(function(el) {
         var self = this;
 
         var esign_button = this.$el.find('.button.esign');
-
-        esign_button.off().on('click', function(e){
-            var partner = self.new_client || self.old_client;
-            Session.rpc('/pos_longpolling/sign_request', {
-                vals: {
-                    partner_id: partner.id,
-                    partner_name: partner.name,
-                    config_id: self.pos.config.id,
-                },
+        if (!this.pos.config.ask_for_sign) {
+            esign_button.hide();
+        } else {
+            esign_button.off().on('click', function(e){
+                var partner = self.new_client || self.old_client;
+                Session.rpc('/pos_longpolling/sign_request', {
+                    vals: {
+                        partner_id: partner.id,
+                        partner_name: partner.name,
+                        config_id: self.pos.config.id,
+                    },
+                });
             });
-        });
+        }
 
         this.pos.bind('changed:partner_esign', function(res){
             var partners = self.pos.db.get_partners_sorted(1000);

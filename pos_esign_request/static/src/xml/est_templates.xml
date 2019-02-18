@@ -24,9 +24,6 @@
                     </div>
                     <h2 class="fold_terms fold_terms_end">Click to fold Terms and Conditions</h2>
                 </div>
-                <!--<h2>Scan your badge</h2>-->
-                <!--<h4>or</h4>-->
-                <!--<button class="o_hr_attendance_button_partners btn btn-primary btn-lg">Select Partner</button>-->
 
                 <div class="panel panel-default mt16 mb0" id="drawsign" style="display: none;">
                     <div class="panel-heading">
@@ -41,21 +38,8 @@
                 </div>
 
             </div>
-            <!--<div class="o_hr_attendance_clock"></div>-->
         </div>
     </t>
-
-    <!--<t t-name="SignForm">-->
-        <!--<div class="panel panel-default mt16 mb0" id="drawsign">-->
-            <!--<div class="panel-heading">-->
-                <!--<div class="pull-right">-->
-                    <!--<a id="sign_clean" class="btn btn-xs">Clear</a>-->
-                <!--</div>-->
-                <!--<strong>Draw your signature</strong>-->
-            <!--</div>-->
-            <!--<div id="signature" class="panel-body" style="padding: 0"/>-->
-        <!--</div>-->
-    <!--</t>-->
 
     <t t-extend="ListView.buttons">
         <t t-jquery="button.o_list_button_add" t-operation="replace">

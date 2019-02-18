@@ -12,7 +12,14 @@ class PosConfig(models.Model):
     _inherit = 'pos.config'
 
     ask_for_sign = fields.Boolean(string='Ask To Sign', default=False)
+    mandatory_ask_for_sign = fields.Boolean(string='Mandatory Ask To Sign', default=False)
     terms_to_sign = fields.Char(string='Terms & Conditions')
+
+    @api.depends('ask_for_sign')
+    @api.onchange('ask_for_sign')
+    def _onchange_ask_for_sign(self):
+        if not self.ask_for_sign:
+            self.mandatory_ask_for_sign = False
 
     @api.model
     def send_to_esign_tab(self, channel_name, sub_channel, data):

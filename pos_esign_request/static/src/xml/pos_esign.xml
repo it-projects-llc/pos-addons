@@ -3,12 +3,16 @@
     License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html). -->
 <templates id="pos_esign_request_template" xml:space="preserve">
 
+    <t t-name="ESignButton">
+        <span class='button esign'>
+            E-Sign
+            <i class="fas fa-signature"></i>
+        </span>
+    </t>
+
     <t t-extend="PaymentScreenWidget">
         <t t-jquery="span.button.next" t-operation="before">
-            <span class='button esign'>
-                E-Sign
-                <i class="fas fa-signature"></i>
-            </span>
+            <t t-call="ESignButton"/>
         </t>
     </t>
 
@@ -17,9 +21,7 @@
             <th id="client-list-esign">E-Sign</th>
         </t>
         <t t-jquery=".button.next" t-operation="before">
-            <span id="esign_request" class="button esign">
-                E-Sign
-            </span>
+            <t t-call="ESignButton"/>
         </t>
     </t>
 
