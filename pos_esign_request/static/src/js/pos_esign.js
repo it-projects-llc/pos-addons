@@ -36,13 +36,7 @@ screens.PaymentScreenWidget.include({
                 if (!partner){
                     return self.click_set_customer();
                 }
-                Session.rpc('/pos_longpolling/sign_request', {
-                    vals: {
-                        partner_id: partner.id,
-                        partner_name: partner.name,
-                        config_id: self.pos.config.id,
-                    },
-                });
+                self.pos.esign_request(self.compose_vals_for_sign_request());
             });
             var mandatory_ask_for_sign = this.pos.config.mandatory_ask_for_sign;
             if (!mandatory_ask_for_sign || client.sign_attachment_id) {
@@ -60,6 +54,15 @@ screens.PaymentScreenWidget.include({
             }
         });
     },
+
+    compose_vals_for_sign_request: function(){
+        var partner = self.pos.get_client();
+        return {
+            partner_id: partner.id,
+            partner_name: partner.name,
+            config_id: this.pos.config.id,
+        };
+    }
 
 });
 
@@ -126,6 +129,12 @@ models.PosModel = models.PosModel.extend({
         var partner = this.db.get_partner_by_id(res.partner_id);
         partner.sign_attachment_id = res.attachment_id;
         this.trigger('changed:partner_esign', res);
+    },
+
+    esign_request: function(vals) {
+        Session.rpc('/pos_longpolling/sign_request', {
+            vals: vals,
+        });
     },
 
 });
