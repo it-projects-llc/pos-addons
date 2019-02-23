@@ -120,15 +120,16 @@ models.PosModel = models.PosModel.extend({
     },
 
     esign_callback: function(res){
-
         if (!res) {
             return;
         }
         res = JSON.parse(res);
 
         var partner = this.db.get_partner_by_id(res.partner_id);
-        partner.sign_attachment_id = res.attachment_id;
-        this.trigger('changed:partner_esign', res);
+        if (partner) {
+            partner.sign_attachment_id = res.attachment_id;
+            this.trigger('changed:partner_esign', res);
+        }
     },
 
     esign_request: function(vals) {
