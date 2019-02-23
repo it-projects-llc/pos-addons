@@ -2,9 +2,9 @@
    :target: https://www.gnu.org/licenses/lgpl
    :alt: License: LGPL-3
 
-===============
+====================
  POS E-Sign Request
-===============
+====================
 
 Asks Customer For E-Sign On Payment
 
