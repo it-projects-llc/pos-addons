@@ -105,17 +105,14 @@ models.PosModel = models.PosModel.extend({
         PosModelSuper.prototype.initialize.apply(this, arguments);
 
         this.ready.then(function () {
+            if (!self.config.ask_for_sign) {
+                return;
+            }
             var channel_name = "pos.sign_request";
             var callback = self.updates_from_sign_kiosk;
-            self.add_bus('sign_kiosk', '');
-            var sign_bus = self.get_bus('sign_kiosk');
-            sign_bus.activate_channel(channel_name);
-            sign_bus.add_channel_callback(channel_name, self.esign_callback, self);
-            sign_bus.start();
-        });
-
-        this.bind('changed:partner_esign', function(res){
-            console.log('POSMODEL', res);
+            var bus = self.get_bus();
+            bus.add_channel_callback(channel_name, self.esign_callback, self);
+            bus.start();
         });
     },
 
