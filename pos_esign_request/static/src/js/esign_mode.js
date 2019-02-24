@@ -106,7 +106,13 @@ var KioskMode = Widget.extend(BarcodeHandlerMixin, {
         this.bus.add_channel(this.esign_channel_name);
         this.force_start_polling();
         this.bus.on("notification", this.bus, function(data){
-            if (data && data.length && JSON.parse(data[0][0])[1] === channel_name){
+            var check;
+            try {
+                check = data && data.length && JSON.parse(data[0][0])[1] === channel_name;
+            } catch(error) {
+                check = false;
+            }
+            if (check){
                 self.on_est_sign_updates(data);
             }
         });

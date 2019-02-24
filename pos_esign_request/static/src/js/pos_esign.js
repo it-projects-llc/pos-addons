@@ -80,6 +80,9 @@ gui.Gui.prototype.screen_classes.filter(function(el) {
         } else {
             esign_button.off().on('click', function(e){
                 var partner = self.new_client || self.old_client;
+                if (!partner) {
+                    return;
+                }
                 Session.rpc('/pos_longpolling/sign_request', {
                     vals: {
                         partner_id: partner.id,
