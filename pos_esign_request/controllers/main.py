@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
 # Copyright 2018 Kolushov Alexandr <https://it-projects.info/team/KolushovAlexandr>
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 
-from odoo import fields, http, _
+from odoo import http
 from odoo.http import request
 import json
 
@@ -13,7 +12,7 @@ class PosESignExtension(http.Controller):
     def sign_request(self, vals):
         channel_name = "pos.sign_request.to_est"
         config_id = request.env['pos.config'].browse(vals.get('config_id', False))
-        if request.env['ir.config_parameter'].get_param('pos_longpolling.allow_public'):
+        if request.env['ir.config_parameter'].sudo().get_param('pos_longpolling.allow_public'):
             config_id = config_id.sudo()
 
         config_id.send_to_esign_tab(channel_name, config_id.id, json.dumps(vals))

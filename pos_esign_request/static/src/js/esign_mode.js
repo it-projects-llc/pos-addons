@@ -3,17 +3,16 @@
 odoo.define('pos_esign_request.esign_mode', function (require) {
 "use strict";
 
-var bus = require('bus.bus');
 var core = require('web.core');
-var Model = require('web.Model');
+var rpc = require('web.rpc');
 var Widget = require('web.Widget');
 var Session = require('web.session');
 var local_storage = require('web.local_storage');
-var BarcodeHandlerMixin = require('barcodes.BarcodeHandlerMixin');
+var AbstractAction = require('web.AbstractAction');
+var ServiceProviderMixin = require('web.ServiceProviderMixin');
 
 var QWeb = core.qweb;
 var _t = core._t;
-
 
 var AcceptModalKiosk = Widget.extend({
     events: {
@@ -32,7 +31,9 @@ var AcceptModalKiosk = Widget.extend({
         var $confirm_btn = $('button#submit_sign');
         ev.preventDefault();
         var values = this.compose_vals();
-        var is_empty = values.signature ? this.empty_sign[1] == values.signature[1] : false;
+        var is_empty = values.signature
+        ? this.empty_sign[1] === values.signature[1]
+        : false;
         $('#drawsign').toggleClass('panel-danger', is_empty).toggleClass('panel-default', !is_empty);
         if (is_empty){
             setTimeout(function () {
@@ -56,7 +57,9 @@ var AcceptModalKiosk = Widget.extend({
         var signature = $drawsign.find("#signature").jSignature("getData",'image');
         return {
             'partner_id': this.kiosk.partner.partner_id,
-            'sign': signature?JSON.stringify(signature[1]):false,
+            'sign': signature
+                ? JSON.stringify(signature[1])
+                : false,
             'config_id': this.kiosk.action.context.config_id,
         };
     },
@@ -64,13 +67,10 @@ var AcceptModalKiosk = Widget.extend({
 });
 
 
-
-var KioskMode = Widget.extend(BarcodeHandlerMixin, {
+var KioskMode = AbstractAction.extend({
 
     init: function (parent, action) {
-        var init_super = this._super;
-        BarcodeHandlerMixin.init.apply(this, arguments);
-
+        var init_super = this._super();
         this.parent = parent;
         this.action = action;
         this.session = Session;
@@ -85,8 +85,6 @@ var KioskMode = Widget.extend(BarcodeHandlerMixin, {
             context.pos_name = this.get_from_storage('pos_name');
             context.terms_to_sign = this.get_from_storage('terms_to_sign');
         }
-
-        this.update_bus();
     },
 
     save_locally: function(key, value) {
@@ -99,14 +97,15 @@ var KioskMode = Widget.extend(BarcodeHandlerMixin, {
 
     update_bus: function(){
         var self = this;
-        this.bus = bus.bus;
-        this.bus.stop_polling();
+        console.log(core)
+        this.bus = ServiceProviderMixin.services.bus_service;
+        this.bus.stopPolling();
         var channel_name = 'pos.sign_request.to_est';
-        this.esign_channel_name = this.get_full_channel_name(channel_name, this.action.context.config_id + '');
-        this.bus.add_channel(this.esign_channel_name);
+        this.esign_channel_name = this.get_full_channel_name(channel_name, String(this.action.context.config_id) + '');
+        this.bus.addChannel(this.esign_channel_name);
         this.force_start_polling();
-        this.bus.on("notification", this.bus, function(data){
-            var check;
+        this.bus.onNotification(this.bus, function(data){
+            var check = false;
             try {
                 check = data && data.length && JSON.parse(data[0][0])[1] === channel_name;
             } catch(error) {
@@ -119,9 +118,9 @@ var KioskMode = Widget.extend(BarcodeHandlerMixin, {
     },
 
     force_start_polling: function(){
-        this.bus.start_polling();
-        if(!this.bus.activated){
-            this.bus.poll();
+        this.bus.startPolling();
+        if(!this.bus._isActive){
+            this.bus._poll();
             this.bus.stop = false;
         }
     },
@@ -151,41 +150,35 @@ var KioskMode = Widget.extend(BarcodeHandlerMixin, {
         this.$el.find('.greeting_message').text('Welcome ' + this.partner.partner_name + '!');
         sign_panel.show();
         this.sign_widget.initSignature();
-
     },
 
     start: function () {
-        // TODO: Clean it
         var self = this;
-        var res_company = new Model('res.company');
-        res_company.query(['name']).
-           filter([['id', '=', self.session.company_id]]).all().then(function (companies){
-                self.company_name = companies[0].name;
-                self.company_image_url = self.session.url('/web/image', {model: 'res.company', id: self.session.company_id, field: 'logo',});
+        this.company_name = this.action.company_name;
+        this.company_image_url = this.session.url('/web/image', {model: 'res.company', id: this.session.company_id, field: 'logo',});
 
-                self.$el.html(QWeb.render("ESTKioskMode", {widget: self}));
-                self.toggle_full_screen();
-                self.start_sign_widget();
-                // TODO: remove it
-                $('.o_hr_attendance_button_partners').on('click', function(e){
-                    self.sign_widget.initSignature(e);
-                });
-                var terms_container = self.$el.find('.terms_container');
-                terms_container.find('.terms_text').hide();
-                terms_container.find('.fold_terms').hide().on('click', function(e){
-                    terms_container.find('.fold_terms').hide();
-                    terms_container.find('.terms_text').hide();
-                    terms_container.find('.unfold_terms').show();
-                });
+        this.$el.html(QWeb.render("ESTKioskMode", {widget: self}));
+        this.toggle_full_screen();
+        this.start_sign_widget();
+        // TODO: remove it
+        $('.o_hr_attendance_button_partners').on('click', function(e){
+            this.sign_widget.initSignature(e);
+        });
+        var terms_container = this.$el.find('.terms_container');
+        terms_container.find('.terms_text').hide();
+        terms_container.find('.fold_terms').hide().on('click', function(e){
+            terms_container.find('.fold_terms').hide();
+            terms_container.find('.terms_text').hide();
+            terms_container.find('.unfold_terms').show();
+        });
 
-                terms_container.find('.unfold_terms').on('click', function(e){
-                    terms_container.find('.fold_terms').show();
-                    terms_container.find('.terms_text').show();
-                    terms_container.find('.unfold_terms').hide();
-                });
-
-            });
-        return self._super.apply(this, arguments);
+        terms_container.find('.unfold_terms').on('click', function(e){
+            terms_container.find('.fold_terms').show();
+            terms_container.find('.terms_text').show();
+            terms_container.find('.unfold_terms').hide();
+        });
+        this.update_bus();
+        return this._super.apply(this, arguments);
     },
 
     toggle_full_screen: function(){
@@ -193,9 +186,11 @@ var KioskMode = Widget.extend(BarcodeHandlerMixin, {
 
             var el = document.documentElement;
             var requestMethod = el.requestFullScreen || el.webkitRequestFullScreen || el.mozRequestFullScreen || el.msRequestFullScreen;
-            if (requestMethod) { // Native full screen.
+            if (requestMethod) {
+                // Native full screen.
                 requestMethod.call(el);
-            } else if (typeof window.ActiveXObject !== "undefined") { // Older IE.
+            } else if (typeof window.ActiveXObject !== "undefined") {
+                // Older IE.
                 var wscript = new ActiveXObject("WScript.Shell");
                 if (wscript !== null) {
                     wscript.SendKeys("{F11}");
@@ -216,15 +211,15 @@ var KioskMode = Widget.extend(BarcodeHandlerMixin, {
         this.sign_widget.start();
         this.sign_widget.kiosk = this;
 
-        $('#sign_clean').on('click', function(e){
+        this.$el.find('#sign_clean').on('click', function(e){
             self.sign_widget.clearSignature(e);
         });
 
-        $('#submit_sign').on('click', function(e){
+        this.$el.find('#submit_sign').on('click', function(e){
             self.sign_widget.submitForm(e);
         });
 
-        $('#reject_sign').on('click', function(e){
+        this.$el.find('#reject_sign').on('click', function(e){
             self.close_sign_form();
         });
     },
@@ -244,8 +239,8 @@ var KioskMode = Widget.extend(BarcodeHandlerMixin, {
     on_barcode_scanned: function(barcode) {
         var self = this;
         var hr_employee = new Model('res.partner');
-        hr_employee.call('attendance_scan', [barcode, ]).
-            then(function (result) {
+        hr_employee.call('attendance_scan', [barcode, ])
+            .then(function (result) {
                 if (result.action) {
                     self.do_action(result.action);
                 } else if (result.warning) {
@@ -262,9 +257,27 @@ var KioskMode = Widget.extend(BarcodeHandlerMixin, {
 
 core.action_registry.add('est_kiosk_mode', KioskMode);
 
+// TODO: remove the block below if odoo fixed the issue described here https://github.com/odoo/odoo/pull/28092
+var CrossTab = require('bus.CrossTab');
+CrossTab.include({
+    _heartbeat: function() {
+        this._super();
+        // https://github.com/odoo/odoo/pull/28092
+        var hbPeriod = this.TAB_HEARTBEAT_PERIOD;
+        if (this._isMasterTab) {
+            hbPeriod = this.MASTER_TAB_HEARTBEAT_PERIOD;
+        }
+        if (this._heartbeatTimeout) {
+            clearTimeout(this._heartbeatTimeout);
+        }
+        this._heartbeatTimeout = setTimeout(this._heartbeat.bind(this), hbPeriod);
+    }
+});
+
 return {
     KioskMode: KioskMode,
     AcceptModalKiosk: AcceptModalKiosk,
+    CrossTab: CrossTab,
 };
 
 });

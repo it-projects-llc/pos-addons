@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
 # Copyright 2018 Kolushov Alexandr <https://it-projects.info/team/KolushovAlexandr>
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 
-from odoo import models, fields, api, _
+from odoo import models, fields, api
 import logging
 
 _logger = logging.getLogger(__name__)
@@ -35,6 +34,9 @@ class PosConfig(models.Model):
         return notifications
 
     def open_esign_kiosk(self):
+        user_id = self.env['res.users'].browse(self._context['uid'])
+        if self.company_id != user_id.company_id:
+            return
         return {
             'name': 'E-Sign Kiosk',
             'type': 'ir.actions.client',
@@ -44,6 +46,7 @@ class PosConfig(models.Model):
                 'config_id': self.id,
                 'terms_to_sign': self.terms_to_sign,
                 'pos_name': self.name,
+                'company_name': self.company_id.name,
             },
         }
 
