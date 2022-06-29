@@ -9,7 +9,6 @@ var Widget = require('web.Widget');
 var Session = require('web.session');
 var local_storage = require('web.local_storage');
 var AbstractAction = require('web.AbstractAction');
-var ServiceProviderMixin = require('web.ServiceProviderMixin');
 
 var QWeb = core.qweb;
 var _t = core._t;
@@ -67,10 +66,10 @@ var AcceptModalKiosk = Widget.extend({
 });
 
 
-var KioskMode = AbstractAction.extend({
+var KioskMode = AbstractAction.extend({ 
 
     init: function (parent, action) {
-        var init_super = this._super();
+        this._super(parent, action);
         this.parent = parent;
         this.action = action;
         this.session = Session;
@@ -97,8 +96,7 @@ var KioskMode = AbstractAction.extend({
 
     update_bus: function(){
         var self = this;
-        console.log(core)
-        this.bus = ServiceProviderMixin.services.bus_service;
+        this.bus = this.searchModelConfig.env.services.bus_service;
         this.bus.stopPolling();
         var channel_name = 'pos.sign_request.to_est';
         this.esign_channel_name = this.get_full_channel_name(channel_name, String(this.action.context.config_id) + '');

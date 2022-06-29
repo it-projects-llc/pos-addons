@@ -42,7 +42,6 @@ class PosESignExtension(http.Controller):
             'type': 'binary',
             'name': partner_id.name + 'E-Sign',
             'datas': sign,
-            'datas_fname': partner_id.name + 'E-Sign',
             'res_id': partner_id.id,
             'res_model': "res.partner",
         })

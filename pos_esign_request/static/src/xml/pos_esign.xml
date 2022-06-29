@@ -3,33 +3,37 @@
     License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html). -->
 <templates id="pos_esign_request_template" xml:space="preserve">
 
-    <t t-name="ESignButton">
-        <span class='button esign'>
-            E-Sign
-            <i class="fas fa-signature"></i>
-        </span>
+    <t t-name="ESignButton" owl="1" >
+        <div class='button control-button' id="e-sign" t-on-click="onClickAttButton()">
+            <i class="fas fa-signature"/> 
+            <span> </span>
+            <span>E-Sign</span>
+        </div>
+    </t>
+    <t t-inherit="point_of_sale.PaymentScreen" t-inherit-mode="extension" owl="1">
+        <xpath expr="//div[@class='button next']" position="before">
+            <t t-if="env.pos.get_client()">
+                <ButtonEsign t-if="env.pos.config.ask_for_sign" partner="env.pos.get_client()"/>
+            </t>
+        </xpath>
     </t>
 
-    <t t-extend="PaymentScreenWidget">
-        <t t-jquery="span.button.next" t-operation="before">
-            <t t-call="ESignButton"/>
-        </t>
-    </t>
-
-    <t t-extend="ClientListScreenWidget">
-        <t t-jquery="table.client-list tr" t-operation="append">
+    <t t-inherit="point_of_sale.ClientListScreen" t-inherit-mode="extension" owl="1">
+        <xpath expr="//table[@class='client-list']/thead/tr" position="inside">
             <th id="client-list-esign">E-Sign</th>
-        </t>
-        <t t-jquery=".button.next" t-operation="before">
-            <t t-call="ESignButton"/>
-        </t>
+        </xpath>
+        <xpath expr="//div[@class='button next highlight']" position="after">
+            <t t-if="state.selectedClient">
+                <ButtonEsign t-if="env.pos.config.ask_for_sign" partner="state.selectedClient"/>
+            </t>
+        </xpath>
     </t>
 
-    <t t-extend="ClientLine">
-        <t t-jquery="tr.client-line" t-operation="append">
+    <t t-inherit="point_of_sale.ClientLine" t-inherit-mode="extension" owl="1">
+        <xpath expr="//tr" position="inside">
             <td class="esign">
-                <t t-esc='!!(partner.sign_attachment_id) &amp;&amp; "&#10004;" || ""'/>
+                <t t-esc='!!(props.partner.sign_attachment_id) &amp;&amp; "&#10004;" || ""'/>
             </td>
-        </t>
+        </xpath>
     </t>
 </templates>
