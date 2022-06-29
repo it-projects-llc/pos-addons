@@ -59,7 +59,7 @@
             </field>
             <button name="open_session_cb" position="after">
                 <button t-if="record.ask_for_sign.value &amp;&amp; (record.current_session_state.raw_value === 'opened' || record.pos_session_username.value)"
-                        class="btn btn-default" name="open_esign_kiosk" type="object">E-Sign</button>
+                        class="btn btn-secondary" name="open_esign_kiosk" type="object">E-Sign</button>
             </button>
         </field>
     </record>
