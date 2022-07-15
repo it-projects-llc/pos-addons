@@ -7,9 +7,11 @@ odoo.define('pos_esign_request.ClientListScreen', function (require) {
 
     const POSESignRequestClientListScreen = (x) => class extends x {
         mounted() {
+            super.mounted.apply(this, arguments);
             posbus.on('update_customer_list', this, this.render);
         }
         willUnmount() {
+            super.willUnmount.apply(this, arguments);
             posbus.off('update_customer_list', this);
         }
     };
