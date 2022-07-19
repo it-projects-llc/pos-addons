@@ -51,10 +51,9 @@ models.PosModel = models.PosModel.extend({
 
 });
 
-class ButtonEsign extends PosComponent { 
-    
+class ButtonEsign extends PosComponent {
+
     async onClickAttButton() {
-        var self =this
         var partner = this.props.partner;
         if (!partner) {
             return;
@@ -67,17 +66,6 @@ class ButtonEsign extends PosComponent {
             },
         });
     }
-        
-    mounted() {
-        this.env.pos.on('changed:partner_esign', this.after_partner_esign, this);
-    }
-    willUnmount() {
-        this.env.pos.off('changed:partner_esign', null, this);
-    }
-    after_partner_esign(){
-        posbus.trigger('update_customer_list')
-    }
-        
 }
 ButtonEsign.template = 'ESignButton';
 
