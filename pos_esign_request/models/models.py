@@ -34,8 +34,7 @@ class PosConfig(models.Model):
         return notifications
 
     def open_esign_kiosk(self):
-        user_id = self.env['res.users'].browse(self._context['uid'])
-        if self.company_id != user_id.company_id:
+        if self.company_id not in self.env.companies:
             return
         return {
             'name': 'E-Sign Kiosk',
