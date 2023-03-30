@@ -35,7 +35,7 @@ class PosConfig(models.Model):
 
     def open_esign_kiosk(self):
         if self.company_id not in self.env.companies:
-            return
+            raise UserError(_("Current user is not activated on company %s") % self.company_id.name)
         return {
             'name': 'E-Sign Kiosk',
             'type': 'ir.actions.client',
