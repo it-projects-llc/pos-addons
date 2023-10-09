@@ -6,7 +6,7 @@
     "category": "Point of Sale",
     # "live_test_url": "http://apps.it-projects.info/shop/product/DEMO-URL?version=10.0",
     "images": [],
-    "version": "14.0.1.0.0",
+    "version": "14.0.1.0.1",
     "application": False,
 
     "author": "IT-Projects LLC, Kolushov Alexandr",

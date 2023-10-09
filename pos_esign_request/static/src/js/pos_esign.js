@@ -58,6 +58,8 @@ class ButtonEsign extends PosComponent {
         if (!partner) {
             return;
         }
+        this.env.pos.waiting_for_esign_partner = partner;
+        this.env.pos.trigger('changed:partner_esign');
         Session.rpc('/pos_longpolling/sign_request', {
             vals: {
                 partner_id: partner.id,
