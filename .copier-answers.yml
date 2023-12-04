@@ -1,5 +1,5 @@
 # Do NOT update manually; changes here will be overwritten by Copier
-_commit: ea28867
+_commit: b8281af
 _src_path: /opt/odoo-projects/var/addons-repo-template/
 ci: GitHub
 convert_readme_fragments_to_markdown: false
@@ -18,8 +18,8 @@ org_slug: it-projects-llc
 rebel_module_groups: []
 repo_description: ''
 repo_name: POS Addons
-repo_slug: pos-addons2
-repo_website: https://github.com/it-projects-llc/pos-addons2
+repo_slug: pos-addons
+repo_website: https://github.com/it-projects-llc/pos-addons
 use_pyproject_toml: false
 use_ruff: false
 
