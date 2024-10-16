@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!--Copyright 2018 Kolushov Alexandr <https://it-projects.info/team/KolushovAlexandr>
     License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html). -->
 <templates id="pos_esign_request_template" xml:space="preserve">
 
-    <t t-name="ESignButton" owl="1" >
+    <t t-name="ESignButton" owl="1">
         <div class='button control-button' id="e-sign" t-on-click="onClickAttButton()">
-            <i class="fas fa-signature"/> 
+            <i class="fas fa-signature" />
             <span> </span>
             <span>E-Sign</span>
         </div>
@@ -13,7 +13,10 @@
     <t t-inherit="point_of_sale.PaymentScreen" t-inherit-mode="extension" owl="1">
         <xpath expr="//div[@class='button next']" position="before">
             <t t-if="env.pos.get_client()">
-                <ButtonEsign t-if="env.pos.config.ask_for_sign" partner="env.pos.get_client()"/>
+                <ButtonEsign
+                    t-if="env.pos.config.ask_for_sign"
+                    partner="env.pos.get_client()"
+                />
             </t>
         </xpath>
         <xpath expr="//div[@class='button next']" position="attributes">
@@ -27,7 +30,10 @@
         </xpath>
         <xpath expr="//div[@class='button next highlight']" position="after">
             <t t-if="state.selectedClient">
-                <ButtonEsign t-if="env.pos.config.ask_for_sign" partner="state.selectedClient"/>
+                <ButtonEsign
+                    t-if="env.pos.config.ask_for_sign"
+                    partner="state.selectedClient"
+                />
             </t>
         </xpath>
     </t>
@@ -35,10 +41,14 @@
     <t t-inherit="point_of_sale.ClientLine" t-inherit-mode="extension" owl="1">
         <xpath expr="//tr" position="inside">
             <td class="esign">
-                <t t-if="!props.partner.sign_attachment_id and env.pos.waiting_for_esign_partner == props.partner">
+                <t
+                    t-if="!props.partner.sign_attachment_id and env.pos.waiting_for_esign_partner == props.partner"
+                >
                     Waiting...
                 </t>
-                <t t-esc='!!(props.partner.sign_attachment_id) &amp;&amp; "&#10004;" || ""'/>
+                <t
+                    t-esc='!!(props.partner.sign_attachment_id) &amp;&amp; "&#10004;" || ""'
+                />
             </td>
         </xpath>
     </t>
