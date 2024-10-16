@@ -1,6 +1,3 @@
-# Copyright 2018 Kolushov Alexandr <https://it-projects.info/team/KolushovAlexandr>
-# License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
-
 import logging
 
 from odoo import _, api, fields, models
