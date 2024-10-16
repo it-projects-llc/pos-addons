@@ -1,13 +1,12 @@
 .est_kiosk_mode_container {
-
-    background: url("../../../../web_enterprise/static/src/img/application-switcher-bg.jpg") no-repeat center center fixed;
+    background: url("../../../../web_enterprise/static/src/img/application-switcher-bg.jpg")
+        no-repeat center center fixed;
     background-size: cover;
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-
 }
 
 .est_kiosk_mode {
@@ -43,7 +42,7 @@
 }
 
 .est_kiosk_mode img {
-    overflow:hidden; // prevent margins colapsing with h1
+    overflow: hidden; // prevent margins colapsing with h1
     margin-top: 3rem;
     width: 200px;
 }
