@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="res_config_settings_view_form_menu" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.pos.esign.request</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="point_of_sale.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//block[@id='self_ordering_section']" position="after">
+                <block
+                    title="ESign Kiosk"
+                    id="pos_esign_request"
+                    invisible="not pos_config_id"
+                >
+                    <setting>
+                        <field name="pos_ask_for_sign" />
+                    </setting>
+                    <setting invisible="not pos_ask_for_sign">
+                        <field name="pos_mandatory_ask_for_sign" />
+                    </setting>
+                    <div class="content-group row">
+                        <label for="pos_terms_to_sign" class="col-lg-4" />
+                        <field
+                            name="pos_terms_to_sign"
+                            widget="ace"
+                            required="pos_ask_for_sign"
+                        />
+                    </div>
+                </block>
+            </xpath>
+        </field>
+    </record>
+</odoo>

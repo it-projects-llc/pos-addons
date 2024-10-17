@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates id="template" xml:space="preserve">
+    <t
+        t-name="PartnerListScreen"
+        t-inherit="point_of_sale.PartnerListScreen"
+        t-inherit-mode="extension"
+    >
+        <xpath expr="//th[hasclass('partner-line-details')]" position="after">
+            <th class="partner-list-esign py-2">E-Sign</th>
+        </xpath>
+        <xpath expr="//PartnerLine" position="attributes">
+            <attribute
+                name="isWaitingForESign"
+            >!partner.sign_attachment_id and pos.waiting_for_esign_partner == partner</attribute>
+            <attribute
+                name="onClickESign.bind"
+            >() => pos.requestSign(partner)</attribute>
+        </xpath>
+    </t>
+</templates>
