@@ -4,7 +4,8 @@ You need two devices: one for POS, another one for taking signs
 * Open E-Sign Kiosk on the second device
 
     * Open menu `[[ Point of Sale ]] >> Dashboard`
-    * Click `E-Sign` on the same POS as opened on the first device
+    * Click three dots on the same POS as opened on the first device
+    * Click `E-Sign`
 
 * On the first device click `Customer` button
 * Select a Customer

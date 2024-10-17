@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="pos_config_view_kanban" model="ir.ui.view">
+        <field name="name">pos.config.view.kanban.pos.esign</field>
+        <field name="model">pos.config</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_config_kanban" />
+        <field name="arch" type="xml">
+            <xpath
+                expr="//div[hasclass('dropdown-pos-config')]/div/div[hasclass('o_kanban_manage_view')]"
+                position="inside"
+            >
+                <field name="current_session_id" invisible="1" />
+                <field name="ask_for_sign" invisible="1" />
+                <div role="menuitem" invisible="not current_session_id">
+                    <a
+                        name="preview_esign_app"
+                        type="object"
+                        style="white-space: nowrap;"
+                        invisible="not ask_for_sign"
+                    >
+                        E-Sign
+                    </a>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,41 @@
+.est_kiosk_mode {
+    width: 100%;
+    text-align: center;
+    position: relative;
+    background-color: #fff;
+    padding: 2em;
+
+    h1 {
+        margin: 0 0 2rem 0;
+    }
+
+    .message_demo_barcodes {
+        font-size: 0.9em;
+        margin: 0;
+    }
+
+    p {
+        margin: 1rem 0;
+    }
+
+    img {
+        overflow: hidden; // prevent margins colapsing with h1
+        width: 200px;
+    }
+
+    > button {
+        font-size: 1.2em;
+        margin-bottom: 2rem;
+        width: 100%;
+    }
+
+    > button:last-child {
+        margin-bottom: 0;
+    }
+
+    .o_web_sign_draw_button,
+    .o_web_sign_load_button,
+    .o_web_sign_auto_button {
+        display: none;
+    }
+}

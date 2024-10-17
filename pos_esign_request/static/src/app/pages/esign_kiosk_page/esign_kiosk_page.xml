@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates id="template" xml:space="preserve">
+    <t t-name="pos_esign_request.ESignKioskPage">
+        <div class="d-flex flex-column vh-100 overflow-hidden bg-view">
+            <div class="est_kiosk_mode">
+                <h1><t t-esc="selfOrder.company.name" /></h1>
+                <div t-if="this.state.showingTerms" class="text-center">
+                    <h2>Terms and Conditions</h2>
+                    <p class="text-start">
+                        <t t-raw="terms" />
+                    </p>
+                </div>
+                <img
+                    t-attf-src="/web/image?model=res.company&amp;id={{ selfOrder.company.id }}&amp;field=logo"
+                    alt="Company Logo"
+                />
+                <h3>E-Sign Kiosk </h3>
+                <h3>Related to <t t-esc="selfOrder.config.name" /></h3>
+                <t t-if="state.partner_id">
+                    <h1 class="greeting_message">
+                        Welcome
+                        <t t-esc="state.signature.name" />!
+                    </h1>
+                    <strong>Draw your signature</strong>
+                    <NameAndSignature
+                        signature="state.signature"
+                        noInputName="true"
+                        mode="'draw'"
+                    />
+                </t>
+                <t t-else="">
+                    <h1 class="greeting_message">Waiting for a sign request</h1>
+                </t>
+            </div>
+        </div>
+        <div
+            class="page-buttons d-flex flex-nowrap justify-content-between py-2 px-3 gap-2 gap-md-3 bg-view z-index-1"
+        >
+            <button
+                class="btn btn-primary btn-lg flex-grow-1 flex-md-grow-0 w-100"
+                t-if="this.state.showingTerms == false"
+                t-on-click="() => this.showTerms()"
+            >Show Terms and Conditions</button>
+            <button
+                class="btn btn-primary btn-lg flex-grow-1 flex-md-grow-0 w-100"
+                t-if="this.state.showingTerms == true"
+                t-on-click="() => this.hideTerms()"
+            >Hide Terms and Conditions</button>
+            <button
+                t-if="state.partner_id"
+                class="btn btn-primary btn-lg flex-grow-1 flex-md-grow-0 w-100"
+                t-on-click="onClickSubmit"
+                t-att-disabled="state.isSubmitting ? 'disabled' : ''"
+            >
+                <i t-if="state.isSubmitting" class="fa fa-spinner fa-spin" />
+                Submit Sign
+            </button>
+            <button
+                class="btn btn-primary btn-lg flex-grow-1 flex-md-grow-0 w-100"
+                t-if="state.partner_id"
+                t-on-click="onClickReject"
+            >Reject</button>
+        </div>
+    </t>
+</templates>

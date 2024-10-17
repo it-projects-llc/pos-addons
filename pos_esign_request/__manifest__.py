@@ -10,16 +10,24 @@
     "website": "https://github.com/it-projects-llc/pos-addons",
     "license": "LGPL-3",
     "depends": [
-        "pos_longpolling",
+        "pos_self_order",
     ],
+    "assets": {
+        "pos_self_order.assets": [
+            "pos_esign_request/static/src/app/**/*",
+            "web/static/lib/jquery/jquery.js",
+            "web/static/src/core/signature/name_and_signature.scss",
+            "web/static/src/core/signature/name_and_signature.xml",
+            "web/static/src/core/signature/name_and_signature.js",
+        ],
+        "point_of_sale._assets_pos": [
+            "pos_esign_request/static/src/overrides/**/*",
+        ],
+    },
     "data": [
-        "views/assets.xml",
-        "views/pos_config_view.xml",
         "views/partner_views.xml",
+        "views/pos_config_views.xml",
+        "views/res_config_settings_views.xml",
     ],
     "demo": [],
-    "qweb": [
-        "static/src/xml/pos_esign.xml",
-        "static/src/xml/est_templates.xml",
-    ],
 }

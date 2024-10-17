@@ -53,7 +53,8 @@ You need two devices: one for POS, another one for taking signs
 -  Open E-Sign Kiosk on the second device
 
    -  Open menu ``[[ Point of Sale ]] >> Dashboard``
-   -  Click ``E-Sign`` on the same POS as opened on the first device
+   -  Click three dots on the same POS as opened on the first device
+   -  Click ``E-Sign``
 
 -  On the first device click ``Customer`` button
 
@@ -69,6 +70,13 @@ You need two devices: one for POS, another one for taking signs
 
 -  On the first device for the customer in the **E-Sign** column ✔ sign
    appears
+
+Known issues / Roadmap
+======================
+
+Current implementation technically depends on ``pos_self_order`` module.
+Meanwhile no functional feature are used, only technical feature of self
+order screen.
 
 Bug Tracker
 ===========

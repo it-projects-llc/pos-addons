@@ -1,32 +1,29 @@
-import json
+from werkzeug.exceptions import Unauthorized
 
 from odoo import http
-from odoo.http import request
+from odoo.http import request, route
 
 
 class PosESignExtension(http.Controller):
-    @http.route("/pos_longpolling/sign_request", type="json", auth="user")
-    def sign_request(self, vals):
-        channel_name = "pos.sign_request.to_est"
-        config_id = request.env["pos.config"].browse(vals.get("config_id", False))
-        if (
-            request.env["ir.config_parameter"]
+    def _verify_pos_config(self, access_token):
+        pos_config_sudo = (
+            request.env["pos.config"]
             .sudo()
-            .get_param("pos_longpolling.allow_public")
-        ):
-            config_id = config_id.sudo()
+            .search([("access_token", "=", access_token)], limit=1)
+        )
+        if not pos_config_sudo or not pos_config_sudo.has_active_session:
+            raise Unauthorized("Invalid access token")
+        return pos_config_sudo
 
-        config_id.send_to_esign_tab(channel_name, config_id.id, json.dumps(vals))
-
-    @http.route("/pos_longpolling/submit_sign", type="json", auth="user")
-    def submit_kiosk_sign(self, vals):
-        config_id = request.env["pos.config"].browse(vals.get("config_id", 0))
+    @route("/pos_esign_request/sign_response", type="json", auth="public")
+    def submit_kiosk_sign(self, access_token, vals):
+        config = self._verify_pos_config(access_token)
         res = self.update_partner_sign(vals)
 
-        if res and config_id:
-            channel_name = "pos.sign_request"
-            config_id._send_to_channel_by_id(
-                config_id._cr.dbname, config_id.id, channel_name, json.dumps(res)
+        if res and config.current_session_id:
+            session = config.current_session_id
+            request.env["bus.bus"]._sendone(
+                session._get_bus_channel_name(), "ESIGN_RESPONSE", res
             )
 
         return True
@@ -37,9 +34,11 @@ class PosESignExtension(http.Controller):
         if not (partner_id and sign):
             return False
 
-        partner_id = request.env["res.partner"].browse(int(partner_id))
-        ir_attachment = request.env["ir.attachment"]
-        attachment = ir_attachment.create(
+        Partners = request.env["res.partner"].sudo()
+        partner_id = Partners.browse(int(partner_id))
+
+        Attachments = request.env["ir.attachment"].sudo()
+        attachment = Attachments.create(
             {
                 "type": "binary",
                 "name": partner_id.name + "E-Sign",
