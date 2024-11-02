@@ -8,6 +8,8 @@ parserOptions:
 
 overrides:
   - files:
+      - "**/app/**/*.js"
+      - "**/overrides/**/*.js"
       - "**/*.esm.js"
     parserOptions:
       sourceType: module
