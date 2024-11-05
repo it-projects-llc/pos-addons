@@ -28,6 +28,8 @@ Removes references to odoo.com:
 
 -  Replaces POS title
 
+-  Removes mention in order receipt
+
 **Table of contents**
 
 .. contents::
