@@ -1,0 +1,5 @@
+- Open "Point of Sale"
+- Open any "POS"
+- Choose "Customer"
+- Sell product with assigned event ticket
+- RESULT: event registration with chosen customer is created
