@@ -12,4 +12,9 @@
         "event_sale",
     ],
     "data": ["views/product_view.xml"],
+    "assets": {
+        "point_of_sale._assets_pos": [
+            "pos_event_registration/static/src/**/*",
+        ],
+    },
 }
