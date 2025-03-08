@@ -39,6 +39,7 @@ export class ESignKioskPage extends Component {
         try {
             const vals = this.prepareSignValues();
             await this.rpc("/pos_esign_request/sign_response", {
+                config_id: this.selfOrder.pos_config_id,
                 access_token: this.selfOrder.access_token,
                 vals: vals,
             });
