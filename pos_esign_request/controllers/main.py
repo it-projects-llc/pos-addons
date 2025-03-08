@@ -9,7 +9,7 @@ class PosESignExtension(http.Controller):
         pos_config_sudo = (
             request.env["pos.config"]
             .sudo()
-            .search([("access_token", "=", access_token)], limit=1)
+            .search([("access_token", "=", access_token), ("ask_for_sign", "=", True)], limit=1)
         )
         if not pos_config_sudo or not pos_config_sudo.has_active_session:
             raise Unauthorized("Invalid access token")
