@@ -3,7 +3,7 @@
     "summary": """The module deselects a partner in opened POS on expiry the predefined time interval after the customer was set.""",  # noqa: E501
     "category": "Point of Sale",
     "images": ["images/pos_partner_deselection.jpg"],
-    "version": "17.0.1.0.0",
+    "version": "17.0.1.0.1",
     "application": False,
     "author": "IT-Projects LLC",
     "support": "it@it-projects.info",
