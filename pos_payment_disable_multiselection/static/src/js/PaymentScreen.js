@@ -13,7 +13,7 @@ odoo.define('pos_payment_multiselect_disable.PaymentScreen', function (require) 
 
                 const matchingLines = currentOrder
                     .get_paymentlines()
-                    .filter(line => line.payment_method.id === paymentMethod.id);
+                    .filter((line) => line.payment_method.id === paymentMethod.id);
 
                 if (matchingLines.length > 0) {
                     if (matchingLines.length > 1) {
@@ -27,6 +27,9 @@ odoo.define('pos_payment_multiselect_disable.PaymentScreen', function (require) 
                 return super.addNewPaymentLine(event);
             }
         };
-    Registries.Component.extend(PaymentScreen, PosPaymentMultiselectDisablePaymentScreen);
+    Registries.Component.extend(
+        PaymentScreen,
+        PosPaymentMultiselectDisablePaymentScreen
+    );
     return PaymentScreen;
 });
