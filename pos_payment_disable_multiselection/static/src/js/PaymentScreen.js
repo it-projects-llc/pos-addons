@@ -7,29 +7,26 @@ odoo.define('pos_payment_multiselect_disable.PaymentScreen', function (require) 
 
     const PosPaymentMultiselectDisablePaymentScreen = (PaymentScreen) =>
         class extends PaymentScreen {
-            addNewPaymentLine({ detail: paymentMethod }) {
+            addNewPaymentLine(event) {
                 const currentOrder = this.env.pos.get_order();
+                const paymentMethod = event.detail;
 
-                currentOrder.get_paymentlines().forEach(line => {
-                    currentOrder.remove_paymentline(line);
-                });
+                const matchingLines = currentOrder
+                    .get_paymentlines()
+                    .filter(line => line.payment_method.id === paymentMethod.id);
 
-                const result = currentOrder.add_paymentline(paymentMethod);
-
-                if (result) {
-                    NumberBuffer.reset();
+                if (matchingLines.length > 0) {
+                    if (matchingLines.length > 1) {
+                        for (let i = 1; i < matchingLines.length; i++) {
+                            currentOrder.remove_paymentline(matchingLines[i]);
+                        }
+                        NumberBuffer.reset();
+                    }
                     return true;
-                } else {
-                    this.showPopup('ErrorPopup', {
-                        title: this.env._t('Error'),
-                        body: this.env._t('There is already an electronic payment in progress or an issue adding the payment.'),
-                    });
-                    return false;
                 }
+                return super.addNewPaymentLine(event);
             }
         };
-
     Registries.Component.extend(PaymentScreen, PosPaymentMultiselectDisablePaymentScreen);
-
     return PaymentScreen;
 });
