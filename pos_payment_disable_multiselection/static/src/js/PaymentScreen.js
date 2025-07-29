@@ -1,9 +1,9 @@
-odoo.define('pos_payment_multiselect_disable.PaymentScreen', function (require) {
-    'use strict';
+odoo.define("pos_payment_multiselect_disable.PaymentScreen", function (require) {
+    "use strict";
 
-    const PaymentScreen = require('point_of_sale.PaymentScreen');
-    const Registries = require('point_of_sale.Registries');
-    const NumberBuffer = require('point_of_sale.NumberBuffer');
+    const PaymentScreen = require("point_of_sale.PaymentScreen");
+    const Registries = require("point_of_sale.Registries");
+    const NumberBuffer = require("point_of_sale.NumberBuffer");
 
     const PosPaymentMultiselectDisablePaymentScreen = (PaymentScreen) =>
         class extends PaymentScreen {

@@ -3,7 +3,7 @@
     "summary": "Prevent selecting the payment method multiple times in POS",
     "author": "Almas Kopeyev, IT-Projects LLC",
     "version": "16.0.1.0.0",
-    "website": "https://github.com/it-projects-llc",
+    "website": "https://github.com/it-projects-llc/pos-addons",
     "depends": ["point_of_sale"],
     "data": [],
     "assets": {
