@@ -13,6 +13,8 @@ odoo.define("pos_remove_payment_methods.PaymentScreen", function (require) {
                     [...this.currentOrder.get_paymentlines()].forEach((line) => {
                         this.currentOrder.remove_paymentline(line);
                     });
+                    // NumberBuffer reset and render this screen - reference for same logic in Odoo addons:
+                    // https://github.com/odoo/odoo/blob/16.0/addons/point_of_sale/static/src/js/Screens/PaymentScreen/PaymentScreen.js#L199
                     NumberBuffer.reset();
                     this.render(true);
                 }
