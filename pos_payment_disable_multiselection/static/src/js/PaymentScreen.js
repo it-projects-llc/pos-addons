@@ -3,7 +3,6 @@ odoo.define("pos_payment_multiselect_disable.PaymentScreen", function (require) 
 
     const PaymentScreen = require("point_of_sale.PaymentScreen");
     const Registries = require("point_of_sale.Registries");
-    const NumberBuffer = require("point_of_sale.NumberBuffer");
 
     const PosPaymentMultiselectDisablePaymentScreen = (PaymentScreen) =>
         class extends PaymentScreen {
@@ -15,19 +14,12 @@ odoo.define("pos_payment_multiselect_disable.PaymentScreen", function (require) 
                     .filter((line) => line.payment_method.id === paymentMethod.id);
 
                 if (matchingLines.length > 0) {
-                    if (matchingLines.length > 1) {
-                        for (let i = 1; i < matchingLines.length; i++) {
-                            this.deletePaymentLine(matchingLines[i]);
-                        }
+                    // Delete all duplicate payment lines except the first
+                    for (let i = 1; i < matchingLines.length; i++) {
+                        this.deletePaymentLine(matchingLines[i]);
                     }
-
-                    const freshLine = this.currentOrder
-                        .get_paymentlines()
-                        .find(line => line.payment_method.id === paymentMethod.id);
-
-                    if (freshLine) {
-                        this.selectPaymentLine({ detail: freshLine });
-                    }
+                    // Select the first line
+                    this.selectPaymentLine({detail: matchingLines[0]});
                     return true;
                 }
                 return super.addNewPaymentLine(event);

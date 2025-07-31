@@ -9,7 +9,7 @@
     "assets": {
         "point_of_sale.assets": [
             "pos_payment_disable_multiselection/static/src/**/*",
-        ]
+        ],
     },
     "license": "LGPL-3",
 }
