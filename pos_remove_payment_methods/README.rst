@@ -1,6 +1,6 @@
-=======================================================
-POS: clear the payment lines on screen entry
-=======================================================
+==============================================
+ POS: clear the payment lines on screen entry
+==============================================
 
 * Automatically removes all selected payment lines when navigating back from the Payment screen to the Product screen
 
