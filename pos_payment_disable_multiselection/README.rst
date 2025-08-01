@@ -1,6 +1,6 @@
-===================================================
-Disabling multiple selection for the same Payment Method in POS
-===================================================
+=================================================================
+ Disabling multiple selection for the same Payment Method in POS
+=================================================================
 
 * Prevents adding the same payment method multiple times in the POS Payment Screen
 
