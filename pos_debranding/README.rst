@@ -24,11 +24,11 @@ POS debranding
 
 Removes references to odoo.com:
 
--  Deletes odoo logo
+- Deletes odoo logo
 
--  Replaces POS title
+- Replaces POS title
 
--  Removes mention in order receipt
+- Removes mention in order receipt
 
 **Table of contents**
 

@@ -33,26 +33,26 @@ time interval after the customer was set.
 Configuration
 =============
 
--  Open menu ``[[ Point of Sale ]]``
--  Select a Point of Sale (POS)
--  Click on ``[More]`` at the right corner of this POS and then select
-   ``[Settings]`` inside a POS
--  Go to the ``PoS Interface`` section
--  Specify a **Customer Deselection Interval** in seconds
--  Click ``[Save]``
+- Open menu ``[[ Point of Sale ]]``
+- Select a Point of Sale (POS)
+- Click on ``[More]`` at the right corner of this POS and then select
+  ``[Settings]`` inside a POS
+- Go to the ``PoS Interface`` section
+- Specify a **Customer Deselection Interval** in seconds
+- Click ``[Save]``
 
 Usage
 =====
 
--  Open a Point of Sale (POS)
--  Click ``Customer``
--  Select a customer from the appeared List with all Customers (you can
-   use search filed above)
--  Click the ``Set Customer`` button
--  Wait for an amount of time which you have predefined in the *Customer
-   Deselection Interval* field
--  RESULT: Customer has automatically deselected after Deselection
-   Interval.
+- Open a Point of Sale (POS)
+- Click ``Customer``
+- Select a customer from the appeared List with all Customers (you can
+  use search filed above)
+- Click the ``Set Customer`` button
+- Wait for an amount of time which you have predefined in the *Customer
+  Deselection Interval* field
+- RESULT: Customer has automatically deselected after Deselection
+  Interval.
 
 Bug Tracker
 ===========
@@ -75,11 +75,11 @@ Authors
 Contributors
 ------------
 
--  Alexandr Kolusov (https://github.com/KolushovAlexandr)
--  Ruzilya Mirgalimova (m_ruzilya@inbox.ru)
--  Ivan Yelizariev (https://github.com/yelizariev)
--  Victor Bykov (https://github.com/BykovVik)
--  Eugene Molotov (https://github.com/em230418)
+- Alexandr Kolusov (https://github.com/KolushovAlexandr)
+- Ruzilya Mirgalimova (m_ruzilya@inbox.ru)
+- Ivan Yelizariev (https://github.com/yelizariev)
+- Victor Bykov (https://github.com/BykovVik)
+- Eugene Molotov (https://github.com/em230418)
 
 Maintainers
 -----------

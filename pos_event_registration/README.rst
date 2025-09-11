@@ -32,27 +32,27 @@ Sell Tickets via POS
 Configuration
 =============
 
--  Open "Point of Sale" -> Products -> Products
+- Open "Point of Sale" -> Products -> Products
 
--  Choose any product or create new one
+- Choose any product or create new one
 
--  In "Sale" tab
+- In "Sale" tab
 
-   -  Enable "Available in POS"
-   -  Set "Category", which products will be used in POS
-   -  Set "Linked Event"
-   -  Set "Linked Event Ticket"
+  - Enable "Available in POS"
+  - Set "Category", which products will be used in POS
+  - Set "Linked Event"
+  - Set "Linked Event Ticket"
 
--  Save
+- Save
 
 Usage
 =====
 
--  Open "Point of Sale"
--  Open any "POS"
--  Choose "Customer"
--  Sell product with assigned event ticket
--  RESULT: event registration with chosen customer is created
+- Open "Point of Sale"
+- Open any "POS"
+- Choose "Customer"
+- Sell product with assigned event ticket
+- RESULT: event registration with chosen customer is created
 
 Bug Tracker
 ===========
@@ -75,7 +75,7 @@ Authors
 Contributors
 ------------
 
--  Eugene Molotov (https://github.com/em230418)
+- Eugene Molotov (https://github.com/em230418)
 
 Maintainers
 -----------
