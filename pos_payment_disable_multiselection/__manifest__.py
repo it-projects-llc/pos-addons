@@ -7,8 +7,8 @@
     "depends": ["point_of_sale"],
     "data": [],
     "assets": {
-        "point_of_sale.assets": [
-            "pos_payment_disable_multiselection/static/src/**/*",
+        "point_of_sale._assets_pos": [
+            "pos_payment_disable_multiselection/static/src/app/screens/payment_screen/payment_screen.js",
         ],
     },
     "license": "LGPL-3",
