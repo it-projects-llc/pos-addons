@@ -5,7 +5,7 @@
         "in case when we return back to the cart and re-entering the POS payment screen"
     ),
     "author": "Almas Kopeyev, IT-Projects LLC",
-    "version": "16.0.1.0.0",
+    "version": "17.0.1.0.0",
     "website": "https://github.com/it-projects-llc/pos-addons",
     "depends": ["point_of_sale"],
     "data": [],
