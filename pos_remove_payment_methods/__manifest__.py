@@ -10,9 +10,9 @@
     "depends": ["point_of_sale"],
     "data": [],
     "assets": {
-        "point_of_sale.assets": [
+        "point_of_sale._assets_pos": [
             "pos_remove_payment_methods/static/src/**/*",
-        ]
+        ],
     },
     "license": "LGPL-3",
 }
